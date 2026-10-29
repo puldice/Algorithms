@@ -29,6 +29,7 @@ string infixToPostfix(const string& expr) {
         }
         else if (c == ')') {
             bool foundOpen = false;
+            bool hasOperators = false;
             while (!stack_empty(st)) {
                 char top = stack_get(st);
                 if (top == '(') {
@@ -37,9 +38,10 @@ string infixToPostfix(const string& expr) {
                     break;
                 }
                 result += top;
+                hasOperators = true;
                 stack_pop(st);
             }
-            if (!foundOpen) {
+            if (!foundOpen || (!hasOperators && result.length() == 0)) {
                 stack_delete(st);
                 return "ERROR";
             }
